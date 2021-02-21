@@ -3,7 +3,7 @@ import os
 
 def load():
     size = 600
-    symbol_size = (size/3 - size/8)/2
+    symbol_size = round((size/3 - size/8)/2)
     thickness = 50
     o_colour = '#0492CF'
     x_colour = '#EE4035'

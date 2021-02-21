@@ -12,8 +12,8 @@ def convert_to_logical(grid_position):
     grid_position = np.array(grid_position)
     return np.array(grid_position//(board_size/3), dtype=int)
 
-def is_grid_occupied(board_status, position):
-    if board_status[position[0]][position[1]] == 0:
+def check_cell_empty(board_status, logical_position):
+    if board_status[logical_position[0]][logical_position[1]] != 0:
         return False
     else:
         return True
@@ -30,8 +30,8 @@ def check_board_winner(board_status, player):
         if board_status[0][i] == board_status[1][i] == board_status[2][i] == player:
             return True
     #Chequear diagonales
-    if self.board_status[0][0] == self.board_status[1][1] == self.board_status[2][2] == player:
+    if board_status[0][0] == board_status[1][1] == board_status[2][2] == player:
         return True
-    if self.board_status[0][2] == self.board_status[1][1] == self.board_status[2][0] == player:
+    if board_status[0][2] == board_status[1][1] == board_status[2][0] == player:
         return True
     return False
