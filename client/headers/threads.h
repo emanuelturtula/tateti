@@ -8,7 +8,8 @@
 #include <pthread.h> 
 
 #include "types.h"
+#include "messages.h"
 
-status_t create_heartbeat_thread(pthread_t *tid, int sockfd);
+status_t create_heartbeat_thread(int sockfd, pthread_t *tid);
 
 #endif

@@ -5,6 +5,7 @@
 #include <string.h> 
 #include <sys/socket.h> 
 #include <sys/types.h> 
+#include <unistd.h> 
 #define MAX 80 
 #define PORT 2000 
 #define SA struct sockaddr 
@@ -15,20 +16,26 @@
 void func(int sockfd) 
 { 
 	char buff[MAX]; 
+	char message[] = "200|OK \r\n \r\n";
 	int n; 
 	size_t heartbeat_received = 0;
 	// infinite loop for chat 
-	while (heartbeat_received < COUNT_HEARTBEAT) { 
+	while (1) { 
 		bzero(buff, MAX); 
 		// read the message from client and copy it in buffer 
 		read(sockfd, buff, sizeof(buff)); 
 		// print buffer which contains the client contents 
 		if (strcmp(buff, "HEARTBEAT \r\n \r\n") == 0)
         {
-			heartbeat_received ++;
 			printf("From client: %s\n", buff);
             printf("Received heartbeat\n");
         }
+		if (strcmp(buff, "LOGIN|Ema \r\n \r\n") == 0)
+		{
+			printf("From client: %s\n", buff);
+            printf("Login Ema\n");
+			write(sockfd, message, sizeof(message));
+		}
 	} 
 } 
 

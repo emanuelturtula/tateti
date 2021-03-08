@@ -5,5 +5,6 @@
 #include "sockets.h"
 #include "config.h"
 #include "types.h"
+#include "messages.h"
 
 #endif

@@ -1,26 +1,30 @@
 #include "../headers/threads.h"
 
-void *send_heartbeat(void *sockfd_ptr);
+void *send_heartbeat_thread(void *sockfd_ptr);
 
-void *send_heartbeat(void *sockfd_ptr)
+void *send_heartbeat_thread(void *sockfd_ptr)
 {
-    char message[] = "HEARTBEAT \r\n \r\n";
     int sockfd = *((int *)sockfd_ptr);
     free(sockfd_ptr);
     while(1)
     {
-        write(sockfd, message, strlen(message));
+        send_heartbeat_message(sockfd);
         sleep(1);
     }
     return NULL;
 }
 
-status_t create_heartbeat_thread(pthread_t *tid, int sockfd) 
+status_t create_heartbeat_thread(int sockfd, pthread_t *tid) 
 {
+    pthread_t t;
     int *sockfd_ptr = malloc(sizeof(*sockfd_ptr));
     if (sockfd_ptr == NULL) 
         return ERROR_INSUFFICIENT_MEMORY;
     *sockfd_ptr = sockfd;
-    pthread_create(tid, NULL, send_heartbeat, sockfd_ptr);
+    if (tid == NULL)
+        pthread_create(&t, NULL, send_heartbeat_thread, sockfd_ptr);
+    else
+        pthread_create(tid, NULL, send_heartbeat_thread, sockfd_ptr);
+        
     return OK;
 }
